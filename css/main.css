@@ -1,0 +1,187 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/**** Rock and Roll ****/
+
+h1 {
+    font-family: Georgia, Times, serif;
+    font-size: 50px;
+    color: #e67a33;
+    background-image: -webkit-gradient(linear, left bottom, left top, from(rgba(255, 255, 255, 1)), to(rgba(235,235,235,1)));
+    border-bottom: 3px solid #efefef;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
+    padding: 10px 10px 20px 10px;
+    -webkit-text-stroke: rgba(255, 255, 255, .4) 1px;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+}
+
+h2 {
+    font-family: Helvetica, Verdana, sans-serif;
+    font-size: 20px;
+    color: #666;
+    margin: 10px 0 10px 0;
+    padding: 10px 10px 20px 10px;
+    border-bottom: 1px dotted #ccc;
+}
+
+h3 {
+    font-family: Georgia, Times, serif;
+    font-size: 18px;
+    color: #e67a33;
+    margin: 0 0 10px 0;
+}
+
+p {
+    font-family: Helvetica, Verdana, sans-serif;
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4em;
+}
+
+button {
+    font-size: 16px;
+    margin: 20px 0 0 0;
+    text-align: center;
+    background: #52abf0;
+    border: 1px #fff solid;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, .2);
+    color: #fff;
+    padding: 10px 20px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
+    -webkit-transition: all .5s linear;
+}
+
+button:hover {
+    -webkit-box-shadow: 0 0 3px 1px rgba(0, 0, 0, .1) inset;
+    cursor: pointer;
+}
+
+nav#side {
+    background: #666;
+    position: fixed;
+    width: 150px;
+    height: 100%;
+    z-index: 100;
+    border-right: 1px solid rgba(200, 200, 200, .9);
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+    -webkit-transition: all .5s linear;
+}
+
+nav#side.hidden {
+    left: -150px;
+    border-right-width: 20px;
+    border-right-color: #333;
+    border-right-style: solid;
+    -webkit-border-right-image: url('/img/menu.png') no-repeat;
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+}
+
+nav#side li {
+    color: #fff;
+    font-family: Helvetica, Verdana, sans-serif;
+    font-size: 14px;
+    padding: 10px 0 10px 15px;
+    border-bottom: 1px solid #555;
+    border-top: 1px solid #888;
+    cursor: pointer;
+    -webkit-transition: background-color .5s linear; 
+}
+
+nav#side li.current, nav#side li:hover {
+    background: #797979;
+}
+
+#uploader {
+    margin-left: 20px;
+}
+
+#uploader > div.image {
+	width: 100px;
+	height: 100px;
+	border: #fff solid 5px;
+	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+	margin: 0 10px 10px 0;
+	overflow: hidden;
+	position: relative;
+	float: left;
+	-webkit-transition: border 1s;
+}
+
+#uploader > div.image:hover, #images div.image.on {
+	border: #52abf0 solid 5px;
+	cursor: pointer;
+}
+
+.notify {
+    width: 300px;
+    padding: 50px;
+    margin: 100px auto;
+    border: 1px dotted #ccc;
+    -webkit-box-shadow: 0 0 10px 2px rgba(0, 0, 0, .2); 
+    position: static;
+    z-index: 100;
+    background: #fff;
+}
+
+.center {
+    text-align: center;
+}
+
+.hide {
+    display: none;
+}
+
+.blue {
+    color: #52abf0;
+}

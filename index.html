@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Easy Etsy Uploader</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.fileHandler.js"></script>
+        <link type="text/css" rel="stylesheet" href="css/main.css">
+        <script type="text/javascript">
+            $(document).ready(function(){
+            
+                $("#side").mouseenter(function(){
+                    $(this).removeClass("hidden");
+                }).mouseleave(function(){
+                    $(this).addClass("hidden");
+                });
+            
+            });
+        </script>
+    </head>
+    
+    <body>
+        <h1><span class="blue">Easy</span> Etsy</h1>
+        <nav id="side" class="hidden">
+            <ul>
+                <li class="current" data-name="upload">Upload</li>
+                <li data-name="edit">Edit</li>
+                <li data-name="create">Create Items</li>
+                <li data-name="finalize">Finalize</li>
+            </ul>
+        </nav>
+        <div id="main">
+            <div id="uploader">
+                <h2>Upload Your Images</h2>
+                <div id="upload" class="notify">
+                    <h3>Create Your Library</h3>
+                    <p>You can drag and drop your photos onto the window to upload as many photos as you'd like. Once you are finished uploading them, you will have the option to make some edits and then create your items.</p>
+                </div>
+            </div>
+        </div>
+    
+    
+    </body>
+
+</html>

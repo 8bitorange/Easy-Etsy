@@ -14,6 +14,31 @@
                 }).mouseleave(function(){
                     $(this).addClass("hidden");
                 });
+                
+                $("#uploader").fileHandler({
+                	listen: '.hiddenUpload',
+                	onComplete: function(){
+                
+	                	if($("#upload.notify").is(':visible')){
+	                		$("#upload.notify").fadeOut('fast',function(){
+	                			var uploadButton = $("#fileUploader").parent("div").clone();
+	                			$(uploadButton).addClass("headerButton").hide().appendTo("#uploader").fadeIn('fast');
+	                		});
+	                	}
+		            }    
+                });
+            
+            	$("#fileUploader").live('click', function(e){
+            	
+            		$(".hiddenUpload").click();
+            	
+            	});
+            	
+            	$("#side li").click(function(){
+            		
+            		$("#uploader").addClass('filmstrip').find('h2,div.button').hide();
+            		
+            	});
             
             });
         </script>
@@ -35,6 +60,10 @@
                 <div id="upload" class="notify">
                     <h3>Create Your Library</h3>
                     <p>You can drag and drop your photos onto the window to upload as many photos as you'd like. Once you are finished uploading them, you will have the option to make some edits and then create your items.</p>
+                    <div class="button center">
+	                    <button id="fileUploader">Upload Files</button>
+	                    <input  type="file" name="uploader[]" class="hiddenUpload hide" multiple="">
+    				</div>
                 </div>
             </div>
         </div>

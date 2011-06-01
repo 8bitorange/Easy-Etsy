@@ -36,7 +36,11 @@
             	
             	$("#side li").click(function(){
             		
-            		$("#uploader").addClass('filmstrip').find('h2,div.button').hide();
+            		$("#uploader")
+            			.addClass('filmstrip')
+            			.scrollbar()
+            			.find('h2,div.button')
+            			.hide();
             		
             	});
             

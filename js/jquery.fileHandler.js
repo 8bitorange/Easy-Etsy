@@ -190,7 +190,7 @@
         if(typeof opts.src !== 'undefined'){
         	opts.image.attr('src',opts.src);
         }
-
+        
         if(opts.image.width() < opts.image.height()){
   			opts.image.animate({
   				width: "100px"

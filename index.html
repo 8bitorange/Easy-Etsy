@@ -4,8 +4,11 @@
     <head>
         <title>Easy Etsy Uploader</title>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        <script type="text/javascript" src="/js/jquery-ui-1.8.13.custom.min.js"></script>
         <script type="text/javascript" src="/js/jquery.fileHandler.js"></script>
+        <script type="text/javascript" src="/js/jquery.scrollbar.js"></script>
         <link type="text/css" rel="stylesheet" href="css/main.css">
+        <link type="text/css" rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.13.custom.css">
         <script type="text/javascript">
             $(document).ready(function(){
             
@@ -38,7 +41,9 @@
             		
             		$("#uploader")
             			.addClass('filmstrip')
-            			.scrollbar()
+            			.scrollbar({
+            			  selector: 'div.image'
+            			})
             			.find('h2,div.button')
             			.hide();
             		

@@ -11,7 +11,7 @@
 			
 				var $this = $(this),
 				data = $this.data('scrollbar'),
-				width,compWidth,wrapper;
+				width,compWidth,compHeight,wrapper,scrollbar,defaultHeight,defaultWidth,orient;
 				
 				// If the plugin hasn't been initialized yet
 				if ( ! data ) {
@@ -22,16 +22,45 @@
 				
 				}
 				
-				width = $this.width();
-				$this.children().each(function(){
+				compWidth = 0;
+				compHeight = 0;
+				
+				$this.children(options.selector).each(function(){
+				    defaultHeight = $(this).outerHeight();
+				    defaultWidth = $(this).outerWidth();
 					compWidth = $(this).outerWidth(true) + parseInt(compWidth);
+					compHeight = $(this).outerHeight(true) + parseInt(compHeight);
 				});
 				
-				wrapper = $("<div />").css({
+				$this.css({
+				    width: $(window).width() - 20
+				});
+				
+				wrapper = $("<div class='scrollbarWrapper' />").css({
 					width: compWidth,
-					height: $this.height()
+					height: $this.height(),
+					overflow: 'visible',
+					position: 'relative',
+					float: 'left'
 				});
 				
+				scrollbar = $("<div class='scrollbarDiv'/>");
+				scrollbar.css({
+				    position: 'relative',
+				    width: $(window).width() - 40
+				});
+				
+				$this.wrapInner(wrapper).prepend(scrollbar);
+				
+				scrollbar.slider({
+				    animate: true,
+				    slide: function(e, ui){
+			            var value = parseInt(ui.value/100 * ($this.width() - $('.scrollbarWrapper').width())) + 'px';
+				        $('.scrollbarWrapper').css({
+				            marginLeft: value
+				        });
+				    }
+				});
 				
 			});
 			

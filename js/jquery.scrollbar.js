@@ -44,10 +44,13 @@
 					float: 'left'
 				});
 				
+				if(compWidth < $(window).width()) return;
+
 				scrollbar = $("<div class='scrollbarDiv'/>");
 				scrollbar.css({
 				    position: 'relative',
-				    width: $(window).width() - 40
+				    width: "98%",
+				    margin: "0 auto"
 				});
 				
 				$this.wrapInner(wrapper).prepend(scrollbar);
@@ -62,10 +65,17 @@
 				    }
 				});
 				
+				sizeScrollbar($this);
+						
 			});
 			
 			
 		},
+		
+		resize: function(){
+			console.log('resize');
+		},
+		
 		destroy : function( ) {
 		
 			return this.each(function(){
@@ -93,6 +103,17 @@
 		}    
 
 	};
+
+	function sizeScrollbar(obj) {
+		var remainder = $('.scrollbarWrapper').width() - obj.width();
+		var proportion = remainder / $('.scrollbarWrapper').width();
+		var handleSize = obj.width() - ( proportion * $('.scrollbarWrapper').width() );
+		$(".scrollbarDiv").find( ".ui-slider-handle" ).css({
+			width: handleSize,
+			"margin-left": -handleSize / 2
+		});
+		$(".scrollbarDiv").find( ".ui-slider-handle" ).width( "" ).width( $(".scrollbarDiv").width() - handleSize );
+	}
 	
 
 })( jQuery );

@@ -105,6 +105,9 @@
 	
 		$.each(files, function(i,e){
 			
+			var check = new RegExp("^image");
+			if(e.type.search(check) !== 0) return;
+			
 			var img = new Image();
 			img.src = window.webkitURL.createObjectURL(e);
 			$(img).css({opacity:0});

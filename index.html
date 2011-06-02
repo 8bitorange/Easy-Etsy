@@ -18,6 +18,12 @@
                     $(this).addClass("hidden");
                 });
                 
+                $(window).resize(function(){
+                	if($(".filmstrip").length){
+	                	$("#uploader").scrollbar("resize");
+    				}
+                });
+                
                 $("#uploader").fileHandler({
                 	listen: '.hiddenUpload',
                 	onComplete: function(){
@@ -38,22 +44,34 @@
             	});
             	
             	$("#side li").click(function(){
-            		
-            		$("#uploader")
-            			.addClass('filmstrip')
-            			.scrollbar({
-            			  selector: 'div.image'
-            			})
-            			.find('h2,div.button')
-            			.hide();
-            		
+            		if($(this).data('name') === 'edit' && $('div.image').length){
+	            		$("#side li").removeClass('current');
+	            		$(this).addClass('current');
+            			$("body").removeClass("preview");
+	            		$("#uploader")
+	            			.animate({
+	            				opacity: 0
+	            			},500,function(){
+	            				$(this)
+			            			.addClass('filmstrip')
+			            			.animate({
+			            				bottom: "100px",
+			            				opacity: 1
+			            			},500)
+			            			.scrollbar({
+			            			  selector: 'div.image'
+			            			})
+			            			.find('h2,div.button')
+			            			.fadeOut();
+		            		});
+					}            		
             	});
             
             });
         </script>
     </head>
     
-    <body>
+    <body class="preview">
         <h1><span class="blue">Easy</span> Etsy</h1>
         <nav id="side" class="hidden">
             <ul>

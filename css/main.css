@@ -230,6 +230,15 @@ div.image:hover, div.image.on {
     color: #52abf0;
 }
 
+#previewImageCloseBtn {
+	font-family: Helvetica;
+	font-size: 16px;
+	color: #fff;
+	text-shadow: 0 0 3px rgba(0, 0, 0, .5);
+	cursor: pointer;
+	display: block;
+}
+
 .clearfix:after {
 	content: ".";
 	display: block;

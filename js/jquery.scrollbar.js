@@ -64,8 +64,6 @@
 				        });
 				    }
 				});
-				
-				sizeScrollbar($this);
 						
 			});
 			
@@ -73,7 +71,26 @@
 		},
 		
 		resize: function(){
-			console.log('resize');
+			
+			
+			
+			var $this = $(this),
+				data = $this.data('scrollbar'),
+				width,wrapper,scrollbar,defaultHeight,defaultWidth,orient;
+				
+				// If the plugin hasn't been initialized yet
+				if ( ! data ) {
+					
+					$(this).data('scrollbar', {
+						target : $this
+					});
+				
+				}
+				
+				$this.css({
+				    width: $(window).width() - 20
+				});
+			
 		},
 		
 		destroy : function( ) {
@@ -103,17 +120,6 @@
 		}    
 
 	};
-
-	function sizeScrollbar(obj) {
-		var remainder = $('.scrollbarWrapper').width() - obj.width();
-		var proportion = remainder / $('.scrollbarWrapper').width();
-		var handleSize = obj.width() - ( proportion * $('.scrollbarWrapper').width() );
-		$(".scrollbarDiv").find( ".ui-slider-handle" ).css({
-			width: handleSize,
-			"margin-left": -handleSize / 2
-		});
-		$(".scrollbarDiv").find( ".ui-slider-handle" ).width( "" ).width( $(".scrollbarDiv").width() - handleSize );
-	}
 	
 
 })( jQuery );

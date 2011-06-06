@@ -3,15 +3,24 @@
 
     <head>
         <title>Easy Etsy Uploader</title>
+        <!--
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+        -->
+        <script type="text/javascript" src="/js/jquery.1.6.1.min.js"></script>
         <script type="text/javascript" src="/js/jquery-ui-1.8.13.custom.min.js"></script>
         <script type="text/javascript" src="/js/jquery.fileHandler.js"></script>
         <script type="text/javascript" src="/js/jquery.scrollbar.js"></script>
         <script type="text/javascript" src="/js/jquery.previewImage.js"></script>
+        <script type="text/javascript" src="/js/jquery.imageEditor.js"></script>
+        <script type="text/javascript" src="/js/caman.full.min.js"></script>
         <link type="text/css" rel="stylesheet" href="css/main.css">
         <link type="text/css" rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.13.custom.css">
         <script type="text/javascript">
             $(document).ready(function(){
+            
+                $("#main > div").not(':first-child').hide();
+                $("#inspector").hide();
+                
             
                 $("#side").mouseenter(function(){
                     $(this).removeClass("hidden");
@@ -26,7 +35,19 @@
                 });
                 
                 $("div.image").live('click',function(){
-                	$(this).previewImage();
+                    if($('body').is('.preview')){
+                    	$(this).previewImage();
+                    } else {
+                        $("div.image").removeClass('on');
+                        $(this).addClass('on');
+                        $("#editor").imageEditor({
+                            image: $(this).find('img'),
+                            onComplete: function(){
+                                $("#edit").fadeOut();
+                            }
+                        });
+            			$("#inspector").fadeIn();
+                    }
                 });
                 
                 $("#uploader").fileHandler({
@@ -41,17 +62,12 @@
 	                	}
 		            }    
                 });
-            
-            	$("#fileUploader").live('click', function(e){
-            	
-            		$(".hiddenUpload").click();
-            	
-            	});
             	
             	$("#side li").click(function(){
-            		if($(this).data('name') === 'edit' && $('div.image').length){
+            		if($(this).data('name') === 'editor' && $('div.image').length && $("#main").find("#" + $(this).data('name')). not(':visible')){
 	            		$("#side li").removeClass('current');
 	            		$(this).addClass('current');
+	            		$('#' +  $(this).data('name')).fadeIn();
             			$("body").removeClass("preview");
 	            		$("#uploader")
 	            			.animate({
@@ -80,14 +96,14 @@
         <h1><span class="blue">Easy</span> Etsy</h1>
         <nav id="side" class="hidden">
             <ul>
-                <li class="current" data-name="upload">Upload</li>
-                <li data-name="edit">Edit</li>
+                <li class="current" data-name="uploader">Upload</li>
+                <li data-name="editor">Edit</li>
                 <li data-name="create">Create Items</li>
                 <li data-name="finalize">Finalize</li>
             </ul>
         </nav>
         <div id="main">
-            <div id="uploader">
+            <div id="uploader" class="content-holder">
                 <h2>Upload Your Images</h2>
                 <div id="upload" class="notify">
                     <h3>Create Your Library</h3>
@@ -97,6 +113,45 @@
 	                    <input  type="file" name="uploader[]" class="hiddenUpload hide" multiple="">
     				</div>
                 </div>
+            </div>
+            <div id="editor" class="content-holder">
+                <h2>Edit Your Images</h2>
+                <div id="edit" class="notify">
+                    <h3>Click to Edit Your Images</h3>
+                    <p>That's right, you can edit your images right here in browser. Just click the image you want to edit, it will enlarge and you are able to do some basic editing. Don't worry, we already resized your image to be no more than 1000 pixels tall or wide, and Etsy will handle the resizing to get your thumbnails, but here you can resize it if you want it smaller, crop, and change the brightness, hue, contrast and more!</p>
+                </div>
+                <div id="inspector">
+        			<div class="group">
+        				<div class="input">
+        					<label>Width</label>
+        					<input type="text" size="10" name="width" id="width" class="dimension">
+        				</div>
+        				<div class="input">
+        					<label>Height</label>
+        					<input type="text" size="10" name="height" id="height" class="dimension">
+        				</div>
+        				<div class="button">
+        				    <button id="resize">Resize</button>
+        				</div>
+        			</div>
+        			<div class="group">
+        			 <div class="button">
+        			 	<label>Brighten</label>
+        			     <div class="slider" name="brightness" data-min="-100" data-max="100"></div>
+        			 	<label>Contrast</label>
+        			     <div class="slider" name="contrast" data-min="-10" data-max="10"></div>
+        			 	<label>Hue</label>
+        			     <div class="slider" name="hue" data-min="0" data-max="100"></div>
+        			 	<label>Saturation</label>
+        			     <div class="slider" name="saturation" data-min="-100" data-max="100"></div>
+        			 </div>
+        			</div>
+        			<div class="group">
+        				<div class="button">
+        					<button id="saveImage">Save</button>
+        				</div>
+        			</div>
+        		</div>
             </div>
         </div>
     

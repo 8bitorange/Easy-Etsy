@@ -204,7 +204,7 @@
   				}, 0, function(){
   					$(this).animate({
   						opacity: 1.0
-  					}, 500)
+  					}, 500);
   				});
   			});
 		} else {

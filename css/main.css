@@ -161,7 +161,7 @@ nav#side li.current, nav#side li:hover {
     top: 80px;
 }
 
-#uploader {
+.content-holder {
     margin: 0 0 0 20px;
     position: relative;
 	-webkit-transition: top 3s ease-in-out;
@@ -190,6 +190,16 @@ div.image:hover, div.image.on {
 	left: 20px;
 	margin: 0;
 	border-top: 1px dotted #ccc;
+}
+
+#inspector {
+	width: 200px;
+	background: #fff;
+	padding: 20px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: 1px dotted #ccc;
 }
 
 .headerButton {

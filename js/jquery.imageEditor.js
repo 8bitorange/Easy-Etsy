@@ -21,12 +21,12 @@
 				
 				}
 				
-				editor = $("<canvas class='editor' id='editor" + i + "' />");
-				editor.appendTo($this);
-				canvas = '#editor' + i;
-				
+				if($("#canvasEditor").length <= 0){
+					editor = $("<canvas class='canvasEditor' id='editor' />");
+					editor.appendTo($this);
+				}				
 				resetSlider($(".slider"));
-				createImage(opts.image,canvas,{});
+				createImage(opts.image,{});
 								
 				$(".slider").slider({
 					create: function(e,ui){
@@ -93,9 +93,9 @@
 		return options;
 	}
 	
-	function updateCaman(canvas,values){
+	function updateCaman(values){
 	    
-		Caman($("#tmp_img").attr('src'),canvas,function(){
+		Caman($("#tmp_img").attr('src'),"#canvasEditor",function(){
 		    this.brightness(values.brightness);
 		    this.saturation(values.saturation);
 		    this.hue(values.hue);
@@ -147,7 +147,7 @@
     
     });
 
-    function createImage(img,canvas,options){
+    function createImage(img,options){
         if($("#tmp_img").length){
 		    $("#tmp_img").remove();
         }
@@ -167,11 +167,15 @@
 		       
 				$(canvas)
 				   .attr('width', options.w)
-				   .attr('height', options.h);
+				   .attr('height', options.h)
+				   .css({
+				   	   display: 'block',
+				   	   margin: 'auto'
+				   });
 				
 				inspectorInit(options);
 				var values = updateValues();
-				updateCaman(canvas,values);
+				updateCaman(values);
 
 		   });
     }

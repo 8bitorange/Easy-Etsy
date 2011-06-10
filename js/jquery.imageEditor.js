@@ -22,9 +22,10 @@
 				}
 				
 				if($("#canvasEditor").length <= 0){
-					editor = $("<canvas class='canvasEditor' id='editor' />");
+					editor = $("<canvas class='editor' id='canvasEditor' />");
 					editor.appendTo($this);
-				}				
+				}	
+							
 				resetSlider($(".slider"));
 				createImage(opts.image,{});
 								
@@ -35,10 +36,24 @@
 					change: function(e){
 						var values = updateValues();
 						if(e.which === 1 && $("#tmp_img").length){
-							updateCaman(canvas,values);
+							updateCaman(values);
 						}
 					}
 				});
+				
+				$("#cropImage").click(function(){
+				
+				    createCropArea();
+				
+				});
+    
+                $("#saveImage").click(function(){
+                
+                	$("#tmp_img").remove();
+                	saveImage();
+                	return false;
+                
+                });
 				
 				if($.isFunction(opts.onComplete)){
 				    opts.onComplete($this,canvas);
@@ -112,40 +127,83 @@
 			$(this).slider("option","value",0);
 		});
 	}
-					
-	$(".slider").slider({
-		create: function(e,ui){
-			resetSlider($(this));
-		},
-		change: function(e){
-			var values = updateValues();
-			if(e.which === 1 && $("#tmp_img").length){
-				updateCaman(values);
-			}
-		}
-	});
 	
-	function saveImage(canvas){
+	function createCropArea(){
+	   
+	   var image = $("<img id='tmp_crop_img' />");
+	   var finish = $("<button id='cropFinish'>Finished</button>");
+	   
+	   image.attr("src", $("#tmp_img").attr('src'));
+	   
+	   $("<div id='cropAreaBG' />")
+	       .css({
+	           backgroundColor: "rgba(255,255,255,.8)",
+	           opacity: 0,
+	           zIndex: 2000000,
+	           position: 'fixed',
+	           top: 0,
+	           left: 0,
+	           width: "100%",
+	           height: "100%"
+	       })
+	       .appendTo("body")
+	       .append(finish)
+	       .animate({
+	           opacity: 1
+	       },300, function(){
+	           image
+	               .css({
+	                   marginLeft: "-9999px"
+	               })
+	               .appendTo(this)
+	               .Jcrop({
+	                   onSelect: function(data){
+	                       $("#tmp_img").data('crop',data);
+	                   }
+	               });
+               setTimeout(function(){
+                   $(".jcrop-holder")
+                       .css({
+                           top: $("#canvasEditor").offset().top,
+                           left: $("#canvasEditor").offset().left
+                       })
+                       .fadeIn();
+                }, 100); 
+                
+                finish.click(function(){
+                    var options = {};
+                    options.w = $("#tmp_img").width();
+                    options.h = $("#tmp_img").height();
+                    options.crop = $("#tmp_img").data('crop');
+                    options.create = true;
+                    
+                    $("#cropAreaBG").fadeOut('fast', function(){
+                        $(this).remove();
+                    });
+                    
+                    updateSize($("#tmp_img"),options);
+                    
+                });              
+	       });
+	}
+	
+	function saveImage(){
+	    var canvas = document.getElementById("canvasEditor");
 		var img = canvas.toDataURL("image/jpeg");
-		$("#images > div.on").fadeOut('slow', function(){
-			$(this).find('img').attr('src',img);
-			img.onload = function(){
-				$(this).fadeIn();
-			}
+		$("div.image.on").fadeOut('slow', function(){
+		    var divContainer = $(this);
+			divContainer.find('img')
+			    .attr('src',img)
+                .unbind('load')
+    			.load(function(){
+    				divContainer.fadeIn().removeClass('on');
+    			});
 		});
 		
 		canvas.width = canvas.width;
 		return false;
 		
 	}
-    
-    $("#saveImage").click(function(){
-    	
-    	$("#tmp_img").remove();
-    	saveImage();
-    	return false;
-    
-    });
 
     function createImage(img,options){
         if($("#tmp_img").length){
@@ -158,6 +216,7 @@
 		   		position: 'absolute'
 		   })
 		   .appendTo('body')
+		   .unbind('load')
 		   .load(function(){
 		       if(typeof options.w === 'undefined'){
 			       options.w = this.width;
@@ -165,7 +224,7 @@
                }
 		       options.image = document.getElementById("tmp_img");
 		       
-				$(canvas)
+		       $("#canvasEditor")
 				   .attr('width', options.w)
 				   .attr('height', options.h)
 				   .css({
@@ -181,13 +240,21 @@
     }
     
     function updateSize(imgSrc,options,callback) {
-    
+        var x,y,w,h;
         var image = new Image();
-        image.src = imgSrc;
+        image.src = imgSrc.attr('src');
         image.width = options.w;
         image.height = options.h;
         
-        image.onload = function(){
+        if(options.crop.length){
+            x = options.crop.x;
+            y = options.crop.y;
+            w = options.crop.w;
+            h = options.crop.h;
+        }
+        
+        $(image).unbind('load');
+        $(image).load(function(){
 	        $('<canvas id="tmp_canv" />')
 	            .attr("width", options.w)
 	            .attr("height", options.h)
@@ -198,7 +265,15 @@
 	            
 	        var canvas = document.getElementById("tmp_canv");
 	        var context = canvas.getContext('2d');
-	        context.drawImage(image,0,0,options.w,options.h);
+	        
+	        if($(options.crop).length){
+	            var crop = options.crop
+    	        context.drawImage(image,crop.x,crop.y,crop.w,crop.h,0,0,crop.w,crop.h);
+    	        options.w = crop.w;
+    	        options.h = crop.h;
+	        } else {
+	            context.drawImage(image,0,0,options.w,options.h)
+	        }
 	        var img = canvas.toDataURL('image/jpeg');
 	        var result = $("<img />").attr("src",img);
 	        $("#tmp_canv").remove();
@@ -209,7 +284,7 @@
             if(typeof callback === 'function'){
                 callback(img);
             }
-        }			    
+        });			    
     }
 
 	function inspectorInit(options){

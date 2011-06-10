@@ -155,7 +155,7 @@ nav#side li.current, nav#side li:hover {
 }
 
 #main {
-	position: relative;
+	position: absolute;
 	height: 100%;
 	width: 100%;
     top: 80px;
@@ -200,6 +200,17 @@ div.image:hover, div.image.on {
 	top: 0;
 	right: 0;
 	border: 1px dotted #ccc;
+}
+
+.jcrop-holder {
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    display: none;
+}
+
+#cropFinish {
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 .headerButton {

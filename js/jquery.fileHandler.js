@@ -104,16 +104,59 @@
 	var fileHandler = function(files,options){
 	
 		$.each(files, function(i,e){
+		
+			/*
+var wwworker = new Worker("/js/imageHandler.js");
 			
-			var check = new RegExp("^image");
+			wwworker.addEventListener("message", function(event){
+			 console.log(event);
+			});  
+*/
+            //init variables
+            var w,h,blob,canvas,data;
+			
+    
+            //check whether file type is an image
+            //if not, close worker and return
+            var check = new RegExp("^image");
 			if(e.type.search(check) !== 0) return;
 			
+			//spawn new image object and create url
 			var img = new Image();
 			img.src = window.webkitURL.createObjectURL(e);
-			$(img).css({opacity:0});
 			
+			//get height and width of loaded image
+			img.onload = function(e){
+			    
+                //revoke URL for good standing
+			    window.webkitURL.revokeObjectURL(e);
+
+			    w = img.width;
+			    h = img.height;
+			    
+			    //create canvas and draw image
+			    canvas = document.createElement('canvas');
+			    canvas.width = w;
+			    canvas.height = h;
+			    
+			    var context = canvas.getContext('2d');
+			    context.drawImage(img,0,0);
+			    
+			    //get blob
+			    blob = canvas.toDataURL("image/jpg");
+			    
+			    data = {
+			        "id": i,
+			        "height": h,
+			        "width": w,
+			        "image": blob
+			    }
+			    
+			}
+			
+			/*
+
 			$(img).load(function () {
-	        	
 	        	window.webkitURL.revokeObjectURL(e.src);
 	      		$('<div class="image" style="display:none" />')
 	      			.appendTo("#uploader")
@@ -149,13 +192,15 @@
 	      			});
 
 	      	});
+
 	      	
 	      	
-	
+	       */
 		
 		});	
 		
 		cleanUp(options);
+
 	      	
 	
 	};

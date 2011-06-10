@@ -103,103 +103,91 @@
 	
 	var fileHandler = function(files,options){
 	
-		$.each(files, function(i,e){
+		window.webkitRequestFileSystem(window.PERSISTENT, 5*1024*1024, function(fs) {
 		
-			/*
-var wwworker = new Worker("/js/imageHandler.js");
-			
-			wwworker.addEventListener("message", function(event){
-			 console.log(event);
-			});  
-*/
-            //init variables
-            var w,h,blob,canvas,data;
-			
-    
-            //check whether file type is an image
-            //if not, close worker and return
-            var check = new RegExp("^image");
-			if(e.type.search(check) !== 0) return;
-			
-			//spawn new image object and create url
-			var img = new Image();
-			img.src = window.webkitURL.createObjectURL(e);
-			
-			//get height and width of loaded image
-			img.onload = function(e){
-			    
-                //revoke URL for good standing
-			    window.webkitURL.revokeObjectURL(e);
-
-			    w = img.width;
-			    h = img.height;
-			    
-			    //create canvas and draw image
-			    canvas = document.createElement('canvas');
-			    canvas.width = w;
-			    canvas.height = h;
-			    
-			    var context = canvas.getContext('2d');
-			    context.drawImage(img,0,0);
-			    
-			    //get blob
-			    blob = canvas.toDataURL("image/jpg");
-			    
-			    data = {
-			        "id": i,
-			        "height": h,
-			        "width": w,
-			        "image": blob
-			    }
-			    
-			}
-			
-			/*
-
-			$(img).load(function () {
-	        	window.webkitURL.revokeObjectURL(e.src);
-	      		$('<div class="image" style="display:none" />')
-	      			.appendTo("#uploader")
-	      			.append(img)
-	      			.fadeIn('fast', function(){
-	      			
-		      			var image = $(this).find('img');
-		      			
-		      			if(image.width() > 1000 || image.height() > 1000){
-
-		      			     var newWidth,newHeight;
-		      			     $(img).unbind('load');
-
-		      			     if(image.width() > image.height()){
-	                            newWidth = 1000;
-	                            newHeight = (newWidth/image.width() * image.height());
-	                        } else {
-	                            newHeight = 1000;
-	                            newWidth = (newHeight/image.height() * image.width());
-	                        }
-	                        
-	                        var src = updateSize(image.attr('src'),{
-	                            h: parseInt(newHeight),
-	                            w: parseInt(newWidth)
-	                        },function(img){
-	                        	createThumb({src: img, image: image})
-	                        });
+			$.each(files, function(i,e){
+						
+	            //init variables
+	            var w,h,name;
+				
+	    
+	            //check whether file type is an image
+	            //if not, close worker and return
+	            var check = new RegExp("^image");
+				if(e.type.search(check) !== 0) return;
+				(function(f) {
+					fs.root.getFile(f.name, {create: true, exclusive: false}, function(fileEntry) {
+						fileEntry.createWriter(function(fileWriter) {
+							fileWriter.write(f); // Note: write() can take a File or Blob object.
+							name = f.name;
+						}, errorHandler);
+					}, errorHandler);
+				})(e);
+				
+				//spawn new image object and create url
+				var img = new Image();
+				fs.root.getFile(e.name, {}, function(fileEntry){
+					
+					fileEntry.file(function(f){
+						img.src = window.webkitURL.createObjectURL(f);
+					});
+					
+				});
+				
+				
+				//get height and width of loaded image
+				img.onload = function(e){
+				    
+	                //revoke URL for good standing
+				    window.webkitURL.revokeObjectURL(e);
 	
-		      			} else {
-		      			  createThumb({image: image});
-		      			}
+				    w = img.width;
+				    h = img.height;
+				    
+				    data = {
+				        "id": i,
+				        "height": h,
+				        "width": w,
+				        "URI": img.src,
+				        "name": name
+				    }
+				    
+				    $(img).data(data);
+				    
+				    
+				    
+				}
 
-	      			});
-
-	      	});
-
-	      	
-	      	
-	       */
+			});
 		
-		});	
+		},errorHandler);
+			
+		function errorHandler(e) {
+		  var msg = '';
 		
-		cleanUp(options);
+		  switch (e.code) {
+		    case FileError.QUOTA_EXCEEDED_ERR:
+		      msg = 'QUOTA_EXCEEDED_ERR';
+		      break;
+		    case FileError.NOT_FOUND_ERR:
+		      msg = 'NOT_FOUND_ERR';
+		      break;
+		    case FileError.SECURITY_ERR:
+		      msg = 'SECURITY_ERR';
+		      break;
+		    case FileError.INVALID_MODIFICATION_ERR:
+		      msg = 'INVALID_MODIFICATION_ERR';
+		      break;
+		    case FileError.INVALID_STATE_ERR:
+		      msg = 'INVALID_STATE_ERR';
+		      break;
+		    default:
+		      msg = 'Unknown Error';
+		      break;
+		  };
+		
+		  console.log('Error: ' + msg);
+		}
 
 	      	
 	

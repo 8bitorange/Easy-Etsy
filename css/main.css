@@ -177,6 +177,7 @@ div.image {
 	position: relative;
 	float: left;
 	-webkit-transition: border 1s;
+	background: #ccc;
 }
 
 div.image:hover, div.image.on {

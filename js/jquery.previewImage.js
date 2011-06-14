@@ -97,8 +97,6 @@
 			iHeight = $this.outerHeight();
 			iWidth = $this.outerWidth();
 			
-			console.log(iWidth);
-			console.log(winWidth);
 			if(iHeight > winHeight){
 				$this.css({
 					height: winHeight - 100

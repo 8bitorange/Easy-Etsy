@@ -54,7 +54,7 @@
                 
                 $("#uploader").fileHandler({
                 	listen: '.hiddenUpload',
-                	onComplete: function(){
+                	onStart: function(){
                 
 	                	if($("#upload.notify").is(':visible')){
 	                		$("#upload.notify").fadeOut('fast',function(){

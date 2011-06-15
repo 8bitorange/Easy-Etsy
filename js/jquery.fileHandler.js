@@ -105,7 +105,6 @@
 	var fileHandler = function(files,options){
 		
 		var total = files.length - 1;
-		var worker = {};
 		
 		$.each(files, function(i,e){
 		

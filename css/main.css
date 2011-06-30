@@ -155,19 +155,23 @@ nav#side li.current, nav#side li:hover {
 }
 
 #main {
-	position: absolute;
-	height: 100%;
-	width: 100%;
+	position: relative;
     top: 83px;
+    width: 100%;
+    height: 100%;
 }
 
 .content-holder {
-    position: relative;
+    position: absolute;
 	-webkit-transition: top 3s ease-in-out;
 	overflow-y: auto;
-	width: 100%;
+	width: 98%;
 	height: 100%;
-	margin-left: 20px;
+	right: 0;
+}
+
+#editor {
+    margin-bottom: 231px;
 }
 
 div.image {
@@ -189,13 +193,15 @@ div.image:hover, div.image.on {
 }
 
 #uploader.filmstrip {
-	height: 140px;
+	height: 148px;
 	position: absolute;
 	bottom: 100px;
 	border-top: 1px dotted #ccc;
 	overflow: hidden;
 	z-index: 1000;
 	background: #fff;
+	right:auto;
+	margin-bottom: -18px;
 }
 
 #inspector {

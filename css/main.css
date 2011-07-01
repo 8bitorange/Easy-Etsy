@@ -192,6 +192,19 @@ div.image:hover, div.image.on {
 	cursor: pointer;
 }
 
+div.itemDrop {
+    width: 40%;
+    margin-left: 5%;
+    margin-top: 20px;
+    border: 3px dotted rgba(255, 216, 67, 1);
+    background: rgba(255, 216, 67, .2);
+    -webkit-border-radius: 5px;
+    min-height: 100px;
+    position: relative;
+    float: left;
+    min-width: 350px;
+}
+
 #uploader.filmstrip {
 	height: 148px;
 	position: absolute;

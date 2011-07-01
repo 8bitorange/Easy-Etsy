@@ -14,6 +14,7 @@
         <script type="text/javascript" src="/js/jquery.imageEditor.js"></script>
         <script type="text/javascript" src="/js/caman.full.min.js"></script>
         <script type="text/javascript" src="/js/jquery.Jcrop.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.itemDrop.js"></script>
         <link type="text/css" rel="stylesheet" href="css/main.css">
         <link type="text/css" rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.13.custom.css">
         <link type="text/css" rel="stylesheet" href="css/jquery.Jcrop.css">
@@ -39,6 +40,17 @@
                 $("div.image").live('click',function(){
                     if($('body').is('.preview')){
                     	$(this).previewImage();
+                    } else if($("#create").is(":visible")) {
+                        if($(this).is(".on")){
+                            $(this).removeClass("on");
+                        } else {
+                            if($("div.image.on").length === 5){
+                                alert("You can only select 5 images deselect one at some point");
+                            } else {
+                                $(this).addClass("on");
+                            }
+                        }
+                        $("div.image").itemDrop();
                     } else {
                         $("div.image").removeClass('on');
                         $(this).addClass('on');
@@ -71,7 +83,34 @@
 	            		$(this).addClass('current');
 	            		$('#' +  $(this).data('name')).fadeIn();
             			$("body").removeClass("preview");
-	            		$("#uploader")
+            			$("#create:visible").fadeOut();
+                        if($(".filmstrip").length === 0 || $(".filmstrip").is(":hidden")){
+    	            		$("#uploader")
+    	            			.animate({
+    	            				opacity: 0
+    	            			},500,function(){
+    	            				$(this)
+    			            			.addClass('filmstrip')
+    			            			.animate({
+    			            				opacity: 1
+    			            			},500)
+    			            			.scrollbar({
+    			            			  selector: 'div.image'
+    			            			})
+    			            			.find('h2,div.button')
+    			            			.fadeOut();
+    		            		});
+                        }
+					}
+					if($(this).data('name') === 'create' && $('div.image').length && $("#main").find("#" + $(this).data('name')). not(':visible')){
+	            		$("#side li").removeClass('current');
+	            		$(this).addClass('current');
+	            		$('#' +  $(this).data('name')).fadeIn();
+            			$("body").removeClass("preview");
+	            		$("#editor:visible")
+	            		    .fadeOut('fast');
+	                    if($(".filmstrip").length === 0 || $(".filmstrip").is(":hidden")){
+	                       $("#uploader")
 	            			.animate({
 	            				opacity: 0
 	            			},500,function(){
@@ -86,7 +125,8 @@
 			            			.find('h2,div.button')
 			            			.fadeOut();
 		            		});
-					}            		
+	                    }
+					}          		
             	});
             
             });
@@ -158,6 +198,14 @@
         				</div>
         			</div>
         		</div>
+            </div>
+            <div id="create" class="content-holder">
+                <h2>Create Your Items</h2>
+                <div id="itemList" class="notify">
+                    <h3>Create Your Items</h3>
+                    <p>Now that you've uploaded and edited your images you can curate your items. Just drag them into the drop area you'd like to move. You can click to select them and add up to 5 per item.</p>
+                </div>
+                <div class="itemDrop"></div>
             </div>
         </div>
     

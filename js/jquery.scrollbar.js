@@ -49,8 +49,8 @@
 				scrollbar = $("<div class='scrollbarDiv'/>");
 				scrollbar.css({
 				    position: 'relative',
-				    width: "98%",
-				    margin: "0 auto"
+				    width: "99%",
+				    margin: "5px auto 0 auto"
 				});
 				
 				$this.wrapInner(wrapper).prepend(scrollbar);

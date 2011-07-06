@@ -21,6 +21,8 @@
 				
 				}
 				
+				$this.attr("draggable", "true");
+				
 				$this
 				    .bind('dragstart', function(e){
 				    
@@ -32,24 +34,31 @@
 				        }
 				        
 				        var drag = e.originalEvent.dataTransfer;
-				    
+				        console.log(drag);
+				        drag.effectAllowed = 'copy';
+				        drag.setData("Text", Math.random());
+				        
+				        $(".itemDrop").css("backgroundColor","black");
+				        
 				    });
 				    
 				$(".itemDrop")
-    				.bind('dragenter dragover', function(e){
+    				.bind('dragover', function(e){
     				
-    					e.stopPropagation();
-    					e.preventDefault();
+    					if (e.preventDefault) e.preventDefault(); // allows us to drop
     				
+    				    e.originalEvent.dataTransfer.dropEffect = "drop";
+    				    $(".itemDrop").css("backgroundColor","blue");
+    				    
     				}).bind('dragleave', function(e){
     				
-    					e.stopPropagation();
-    					e.preventDefault();
+    					
     					
     				}).bind('drop', function(e){
     				
-    					e.stopPropagation();
-    					e.preventDefault();
+    					if (e.stopPropagation) e.stopPropagation(); // stops the browser from redirecting...why???
+    					
+    					console.log(e.originalEvent.dataTransfer.getData("Text"));
     				
     				});
 				

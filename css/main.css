@@ -292,6 +292,11 @@ div.itemDrop {
 	line-height: 0;
 	height: 0;
 }
+
+[draggable] {
+	-webkit-user-select: none;
+  	user-select: none;
+}
  
 .clearfix {
 	display: inline-block;

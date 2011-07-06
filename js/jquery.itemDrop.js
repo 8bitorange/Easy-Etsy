@@ -25,42 +25,80 @@
 				
 				$this
 				    .bind('dragstart', function(e){
-				    
+				        
 				        e.stopPropagation();
-				        e.preventDefault();
 				        
 				        if($("#itemList").is(":visible")){
 				            $("#itemList").fadeOut();
 				        }
 				        
 				        var drag = e.originalEvent.dataTransfer;
-				        console.log(drag);
+				        
 				        drag.effectAllowed = 'copy';
-				        drag.setData("Text", Math.random());
+				        drag.setData("text/html", this.outerHTML);
 				        
-				        $(".itemDrop").css("backgroundColor","black");
+				        $(this).addClass("on");
 				        
+				        var top = $(this).position().top - 200;
+				        $("div.image.on")
+				        	.clone()
+							.css({
+								position: "absolute",
+								float: "none",
+								zIndex: 100000
+							})
+							.appendTo($(this).parent())		        
+					        .animate({
+					        	top: top,
+					        	left: $(this).position().left,
+					        		
+					        });
+				        
+				        $(".itemDrop").css("opacity",.5);
+				        
+				    })
+				    .bind('dragend', function(e){
+				    	$(".itemDrop").css({
+				    		opacity: 1
+				    	});
 				    });
 				    
-				$(".itemDrop")
-    				.bind('dragover', function(e){
-    				
-    					if (e.preventDefault) e.preventDefault(); // allows us to drop
-    				
-    				    e.originalEvent.dataTransfer.dropEffect = "drop";
-    				    $(".itemDrop").css("backgroundColor","blue");
-    				    
-    				}).bind('dragleave', function(e){
-    				
-    					
-    					
-    				}).bind('drop', function(e){
-    				
-    					if (e.stopPropagation) e.stopPropagation(); // stops the browser from redirecting...why???
-    					
-    					console.log(e.originalEvent.dataTransfer.getData("Text"));
-    				
-    				});
+				$('.itemDrop')
+					.bind('dragover', function(e){
+						
+						if(e.preventDefault){
+							e.preventDefault();
+						}
+						
+						e.originalEvent.dataTransfer = 'copy';
+												
+						$(this).css({
+							opacity: .75
+						});
+						
+						return false;
+											
+					})
+					.bind('dragenter', function(e){
+						$(this).css({
+							opacity: .75
+						});
+					})
+					.bind('dragleave', function(e){
+						$(this).css({
+							opacity: .5
+						});
+					})
+					.bind('drop', function(e){
+						if (e.stopPropagation) {
+					    	e.stopPropagation(); // stops the browser from redirecting.
+						}
+						
+						var obj = e.originalEvent.dataTransfer.getData("text/html");
+						$(this).append(obj);
+						return false;
+						
+					});
 				
 			});
 			

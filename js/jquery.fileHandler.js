@@ -77,12 +77,10 @@
 		
 			return this.each(function(){
 			
-				var $this = $(this),
-				data = $this.data('fileHandler');
+				var $this = $(this);
 				
 				// Namespacing FTW
 				$(window).unbind('dragenter dragover dragleave drop');
-				data.fileHandler.remove();
 				$this.removeData('fileHandler');
 			
 			});

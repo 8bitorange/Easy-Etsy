@@ -50,7 +50,6 @@
                                 $(this).addClass("on");
                             }
                         }
-                        $("div.image").itemDrop();
                     } else {
                         $("div.image").removeClass('on');
                         $(this).addClass('on');
@@ -110,8 +109,8 @@
             			$("body").removeClass("preview");
 	            		$("#editor:visible")
 	            		    .fadeOut('fast');
-	                    $("uploader").fileHandler('destroy');
-	                    $('div.image').itemDrop();
+	                    $("#uploader").fileHandler('destroy');
+                        $("div.image").itemDrop();
 	                    if($(".filmstrip").length === 0 || $(".filmstrip").is(":hidden")){
 	                       $("#uploader")
 	            			.animate({

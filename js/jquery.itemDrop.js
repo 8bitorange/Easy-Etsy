@@ -34,28 +34,36 @@
 				        
 				        var drag = e.originalEvent.dataTransfer;
 				        
-				        drag.effectAllowed = 'copy';
+				        drag.effectAllowed = 'none';
 				        drag.setData("text/html", this.outerHTML);
+				        var img = document.createElement('img');
+				        drag.setDragImage(img, 0, 0);
 				        
 				        $(this).addClass("on");
 				        
-				        var top = $(this).position().top - 200;
 				        $("div.image.on")
 				        	.clone()
 							.css({
-								position: "absolute",
+								position: "fixed",
 								float: "none",
-								zIndex: 100000
+								zIndex: 1000000000
 							})
-							.appendTo($(this).parent())		        
-					        .animate({
-					        	top: top,
-					        	left: $(this).position().left,
-					        		
-					        });
+							.appendTo($(this).parent());    
+					        
 				        
 				        $(".itemDrop").css("opacity",.5);
 				        
+				    })
+				    .bind('drag', function(e){
+				    	console.log(e);
+					
+						$("div.image.on").css({
+				        	top: e.pageY - 25,
+				        	left: e.pageX - 25
+				        		
+				        });
+				
+
 				    })
 				    .bind('dragend', function(e){
 				    	$(".itemDrop").css({
@@ -69,8 +77,6 @@
 						if(e.preventDefault){
 							e.preventDefault();
 						}
-						
-						e.originalEvent.dataTransfer = 'copy';
 												
 						$(this).css({
 							opacity: .75
@@ -90,11 +96,15 @@
 						});
 					})
 					.bind('drop', function(e){
+						
 						if (e.stopPropagation) {
 					    	e.stopPropagation(); // stops the browser from redirecting.
 						}
 						
-						var obj = e.originalEvent.dataTransfer.getData("text/html");
+						var drag = e.originalEvent.dataTransfer;
+				        drag.effectAllowed = 'none';
+						var obj = drag.getData("text/html");
+						
 						$(this).append(obj);
 						return false;
 						

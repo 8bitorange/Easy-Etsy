@@ -44,11 +44,8 @@
                         if($(this).is(".on")){
                             $(this).removeClass("on");
                         } else {
-                            if($("div.image.on").length === 5){
-                                alert("You can only select 5 images deselect one at some point");
-                            } else {
-                                $(this).addClass("on");
-                            }
+							$(".on").removeClass("on");
+                            $(this).addClass("on");
                         }
                     } else {
                         $("div.image").removeClass('on');

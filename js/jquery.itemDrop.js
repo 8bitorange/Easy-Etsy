@@ -55,8 +55,10 @@
 				        
 				    })
 				    .bind('drag', function(e){
-				    	console.log(e);
-					
+				    	
+				    	if(e.preventDefault){
+							e.preventDefault();
+						}
 						$("div.image.on").css({
 				        	top: e.pageY - 25,
 				        	left: e.pageX - 25
@@ -96,7 +98,9 @@
 						});
 					})
 					.bind('drop', function(e){
-						
+						if(e.preventDefault){
+							e.preventDefault();
+						}
 						if (e.stopPropagation) {
 					    	e.stopPropagation(); // stops the browser from redirecting.
 						}
